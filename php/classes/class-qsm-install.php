@@ -1239,6 +1239,7 @@ class QSM_Install {
   			quiz_id INT NOT NULL,
   			question_name TEXT NOT NULL,
   			answer_array TEXT NOT NULL,
+			answer_json  TEXT NOT NULL,
   			answer_one TEXT NOT NULL,
   			answer_one_points INT NOT NULL,
   			answer_two TEXT NOT NULL,

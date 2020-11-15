@@ -96,6 +96,35 @@ function qsm_display_recent_quizzes($attrs) {
 
 add_shortcode('qsm_recent_quizzes', 'qsm_display_recent_quizzes');
 
+// display the max points of a question with question ID as parameter
+function qsm_display_max_point_getting($atts) {
+	
+	extract(shortcode_atts(array(
+        'id' => '1'
+    ), $atts));
+	global $wpdb;
+
+    $query = "SELECT answer_json FROM wp_mlw_questions WHERE quiz_id = $id";
+    $quizzes = $wpdb->get_results($query);
+    	
+	$results = json_decode($quizzes[0]->answer_json);
+	
+	$total_point = 0;
+	
+	foreach ($results as $ress) {
+		
+		if($ress[2] == 1) {
+			$total_point = $total_point + $ress[1];
+		}
+	}
+	
+    return $total_point; 
+}
+
+add_shortcode('qsm_display_max_point', 'qsm_display_max_point_getting');
+
+
+
 /**
  * @since 6.4.1
  */
