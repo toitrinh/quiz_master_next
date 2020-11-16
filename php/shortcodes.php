@@ -102,11 +102,31 @@ function qsm_display_max_point_getting($atts) {
 	extract(shortcode_atts(array(
         'id' => '1'
     ), $atts));
+	
+	
+	
 	global $wpdb;
 
+
     $query = "SELECT answer_json FROM wp_mlw_questions WHERE quiz_id = $id";
-    $quizzes = $wpdb->get_results($query);
-    	
+    $answers = $wpdb->get_results($query);
+	//$total_point = var_dump($answers);
+	$total_point = 0;
+	
+    foreach ($answers as $answer) {
+		
+		$results = json_decode($answer->answer_json);
+		foreach ($results as $ress) {
+		
+			if($ress[2] == 1) {
+				$total_point = $total_point + $ress[1];
+			}
+		}
+		
+	}
+	
+	/*
+		
 	$results = json_decode($quizzes[0]->answer_json);
 	
 	$total_point = 0;
@@ -117,9 +137,12 @@ function qsm_display_max_point_getting($atts) {
 			$total_point = $total_point + $ress[1];
 		}
 	}
+	*/
 	
     return $total_point; 
 }
+
+
 
 add_shortcode('qsm_display_max_point', 'qsm_display_max_point_getting');
 
